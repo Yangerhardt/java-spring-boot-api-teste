@@ -1,1 +1,0 @@
-INSERT INTO COLABORADORES(nome, idade, cargo, cidade) VALUES ('Yan Krug Gerhardt', 25, 'Desenvolvedor Full Stack', 'Lajeado');

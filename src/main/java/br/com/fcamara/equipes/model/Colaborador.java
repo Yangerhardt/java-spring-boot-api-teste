@@ -11,13 +11,14 @@ public class Colaborador {
     private Long id;
     private String nome;
     private Integer idade;
-    private String cargo;
+    @Enumerated(EnumType.STRING)
+    private Cargo cargo;
     private String cidade;
 
     public Colaborador() {
     }
 
-    public Colaborador(String nome, Integer idade, String cargo, String cidade) {
+    public Colaborador(String nome, Integer idade, Cargo cargo, String cidade) {
         this.nome = nome;
         this.idade = idade;
         this.cargo = cargo;
@@ -61,11 +62,11 @@ public class Colaborador {
         this.idade = idade;
     }
 
-    public String getCargo() {
+    public Cargo getCargo() {
         return cargo;
     }
 
-    public void setCargo(String cargo) {
+    public void setCargo(Cargo cargo) {
         this.cargo = cargo;
     }
 

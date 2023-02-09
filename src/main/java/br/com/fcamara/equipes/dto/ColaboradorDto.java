@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ColaboradorDto {
+    private Long id;
     private String nome;
-    private String cargo;
+    private Cargo cargo;
 
     public ColaboradorDto(Colaborador colaborador) {
+        this.id = colaborador.getId();
         this.nome = colaborador.getNome();
         this.cargo = colaborador.getCargo();
     }
@@ -19,11 +21,15 @@ public class ColaboradorDto {
         return colaboradores.stream().map(ColaboradorDto::new).collect(Collectors.toList());
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getNome() {
         return nome;
     }
 
-    public String getCargo() {
+    public Cargo getCargo() {
         return cargo;
     }
 
