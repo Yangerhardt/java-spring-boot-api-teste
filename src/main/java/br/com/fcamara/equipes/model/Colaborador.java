@@ -1,19 +1,41 @@
 package br.com.fcamara.equipes.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Colaborador {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private Integer idade;
-    private Cargo cargo;
+    private String cargo;
     private String cidade;
+
+    public Colaborador() {
+    }
+
+    public Colaborador(String nome, Integer idade, String cargo, String cidade) {
+        this.nome = nome;
+        this.idade = idade;
+        this.cargo = cargo;
+        this.cidade = cidade;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Colaborador)) return false;
+        Colaborador that = (Colaborador) o;
+        return Objects.equals(id, that.id) && Objects.equals(nome, that.nome) && Objects.equals(idade, that.idade) && cargo == that.cargo && Objects.equals(cidade, that.cidade);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, idade, cargo, cidade);
+    }
 
     public Long getId() {
         return id;
@@ -39,11 +61,11 @@ public class Colaborador {
         this.idade = idade;
     }
 
-    public Cargo getCargo() {
+    public String getCargo() {
         return cargo;
     }
 
-    public void setCargo(Cargo cargo) {
+    public void setCargo(String cargo) {
         this.cargo = cargo;
     }
 
