@@ -9,12 +9,17 @@ import java.util.stream.Collectors;
 public class ColaboradorDto {
     private Long id;
     private String nome;
-    private Cargo cargo;
+    private Integer idade;
+    private String cidade;
+
+    public ColaboradorDto() {
+    }
 
     public ColaboradorDto(Colaborador colaborador) {
         this.id = colaborador.getId();
         this.nome = colaborador.getNome();
-        this.cargo = colaborador.getCargo();
+        this.idade = colaborador.getIdade();
+        this.cidade = colaborador.getCidade();
     }
 
     public static List<ColaboradorDto> converter(List<Colaborador> colaboradores) {
@@ -29,8 +34,11 @@ public class ColaboradorDto {
         return nome;
     }
 
-    public Cargo getCargo() {
-        return cargo;
+    public String getCidade() {
+        return cidade;
     }
 
+    public Integer getIdade() {
+        return idade;
+    }
 }

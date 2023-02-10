@@ -1,6 +1,8 @@
 package br.com.fcamara.equipes.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -9,10 +11,13 @@ public class Colaborador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull @NotEmpty
     private String nome;
+    @NotNull
     private Integer idade;
-    @Enumerated(EnumType.STRING)
+    @NotNull @Enumerated(EnumType.STRING)
     private Cargo cargo;
+    @NotNull @NotEmpty
     private String cidade;
 
     public Colaborador() {

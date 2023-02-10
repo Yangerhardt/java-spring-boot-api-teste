@@ -1,6 +1,5 @@
 package br.com.fcamara.equipes.repository;
 
-import br.com.fcamara.equipes.dto.ColaboradorDto;
 import br.com.fcamara.equipes.model.Colaborador;
 import org.springframework.data.jpa.repository.JpaRepository;
 

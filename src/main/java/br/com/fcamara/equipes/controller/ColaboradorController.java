@@ -1,10 +1,9 @@
 package br.com.fcamara.equipes.controller;
 
-import br.com.fcamara.equipes.controller.form.AtualizacaoColaboradorForm;
 import br.com.fcamara.equipes.dto.ColaboradorDto;
 import br.com.fcamara.equipes.model.Colaborador;
 import br.com.fcamara.equipes.repository.ColaboradorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.fcamara.equipes.service.colaboradorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +12,11 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+import static br.com.fcamara.equipes.service.colaboradorService.colaboradorRepository;
+
 @RestController
 @RequestMapping("/colaboradores")
 public class ColaboradorController {
-    @Autowired
-    private ColaboradorRepository colaboradorRepository;
 
     @GetMapping
     public List<ColaboradorDto> listar() throws Exception {
@@ -29,16 +28,13 @@ public class ColaboradorController {
     @GetMapping("/{id}")
     public ResponseEntity<ColaboradorDto> filtrar(@PathVariable Long id) throws Exception {
         Optional<Colaborador> colaborador = colaboradorRepository.findById(id);
-        if (colaborador.isPresent()) {
-            return ResponseEntity.ok(new ColaboradorDto(colaborador.get()));
-        }
+        return colaborador.map(value -> ResponseEntity.ok(new ColaboradorDto(value))).orElseGet(() -> ResponseEntity.notFound().build());
 
-        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Colaborador> cadastrar(@RequestBody Colaborador colaborador) throws Exception {
+    public ResponseEntity<Colaborador> cadastrar(@RequestBody @Valid Colaborador colaborador) throws Exception {
         System.out.println("Cadastrando o colaborador: " + colaborador.getNome());
         colaboradorRepository.save(colaborador);
 
@@ -47,25 +43,16 @@ public class ColaboradorController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoColaboradorForm attColaboradorForm) {
-        Optional<Colaborador> optional = colaboradorRepository.findById(id);
-        if (optional.isPresent()) {
-            Colaborador colaborador = attColaboradorForm.atualizar(id, colaboradorRepository);
-            colaboradorRepository.save(colaborador);
-            return ResponseEntity.ok().body(colaborador);
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<ColaboradorDto> update(@PathVariable Long id, @RequestBody ColaboradorDto colaboradorDto) {
+        System.out.println("Atualizando o usuário de id: " + id);
+        return ResponseEntity.ok(colaboradorService.update(id, colaboradorDto));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity remover(@PathVariable Long id) {
-        Optional<Colaborador> colaborador = colaboradorRepository.findById(id);
-        if (colaborador.isPresent()) {
-            colaboradorRepository.deleteById(id);
-            return ResponseEntity.ok().body(colaborador);
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<ResponseEntity<Colaborador>> delete(@PathVariable Long id) {
+        System.out.println("Removendo o usuário de id: " + id);
+        return ResponseEntity.ok(colaboradorService.delete(id));
     }
 }
 
